@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "properties": {
+    "collection": {
+      "type": "string",
+      "title": "Collection Type",
+      "description": "The collection (domain specific) to which the metadata record belongs, Example: Non-Spatial"
+    },
+    "owner_org": {
+      "type": "string",
+      "title": "Publisher - Current Organization Name",
+      "description": "The Title of the current Organization (GC Department or Agency) primarily responsible for publishing the dataset"
+    },
+    "creator": {
+      "type": "string",
+      "title": "Creator",
+      "description": "Individual entities (persons) primarily responsible for making the dataset (separate multiple entities by commas)"
+    },
+    "maintainer_email": {
+      "type": "string",
+      "title": "Contact Email",
+      "description": "The contact person's email for the dataset"
+    },
+    "subject": {
+      "type": "string",
+      "title": "Subject",
+      "description": "The topic of the content of the dataset. You may select or deselect multiple subjects (Ctrl+Click)"
+    },
+    "audience": {
+      "type": "string",
+      "title": "Audience",
+      "description": "A description of the audience or group of people for whom the described dataset is intended or useful. You may select or deselect multiple options (Ctrl+Click)"
+    },
+    "place_of_publication": {
+      "type": "string",
+      "title": "Place of Publication",
+      "description": "The region where the dataset was originally published. You may select or deselect multiple options (Ctrl+Click) "
+    },
+    "spatial": {
+      "type": "string",
+      "title": "Spatial",
+      "description": "The range of spatial applicability of a dataset, as a GeoJson string."
+    },
+    "geographic_region": {
+      "type": "string",
+      "title": "Geographic Region Name",
+      "description": "The geographic region of the dataset. You may select or deselect multiple regions (Ctrl+Click)"
+    },
+    "time_period_coverage_start": {
+      "type": "string",
+      "title": "Time Period Coverage Start",
+      "description": "The start date of the period covered by the dataset (YYYY-MM-DD)"
+    },
+    "time_period_coverage_end": {
+      "type": "string",
+      "title": "Time Period Coverage End",
+      "description": "The end date of the period covered by the dataset (YYYY-MM-DD)"
+    },
+    "frequency": {
+      "type": "string",
+      "title": "Maintenance and Update Frequency",
+      "description": "The frequency with which changes and additions are made to the initial dataset"
+    },
+    "date_published": {
+      "type": "string",
+      "title": "Date Published",
+      "description": "The date of issuance (e.g., publication) of the dataset (YYYY-MM-DD)"
+    },
+    "date_modified": {
+      "type": "string",
+      "title": "Date Modified",
+      "description": "The date on which the dataset was updated (YYYY-MM-DD)"
+    },
+    "federated_date_modified": {
+      "type": "string",
+      "title": "Federated Dateset Modified Date",
+      "description": "The date on which the federated data partner's dataset was modified (YYYY-MM-DD)"
+    },
+    "digital_object_identifier": {
+      "type": "string",
+      "title": "Digital Object Identifier (DOI)",
+      "description": "The Digital Object Identifier assigned to the dataset. For more information visit: http://cisti-icist.nrc-cnrc.gc.ca/eng/services/cisti/datacite-canada/index.html"
+    },
+    "jurisdiction": {
+      "type": "string",
+      "title": "Jurisdiction",
+      "description": "The extent or range of judicial, law enforcement or other authority. Example: Level of government that contributed the dataset."
+    },
+    "license_id": {
+      "type": "string",
+      "title": "Licence",
+      "description": "The licence applied to the dataset"
+    },
+    "restrictions": {
+      "type": "string",
+      "title": "Access Restrictions",
+      "description": "The access restrictions of the dataset"
+    },
+    "ready_to_publish": {
+      "type": "string",
+      "title": "Ready to Publish",
+      "description": "Selecting \u2018Yes\u2019 will set this dataset as ready to publish on the Open Government Portal. Selecting \u2018No\u2019 will save it as a \u2018draft\u2019. If the dataset is already published on the portal, selecting 'No' will unpublish it."
+    },
+    "portal_release_date": {
+      "type": "string",
+      "title": "Portal Release Date",
+      "description": "The date the dataset may be published on the Portal (YYYY-MM-DD)"
+    },
+    "presentation_form": {
+      "type": "string",
+      "title": "Presentation Form",
+      "description": "The form in which the resource is available"
+    }
+  }
+}

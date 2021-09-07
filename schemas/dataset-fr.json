@@ -1,0 +1,115 @@
+{
+  "type": "object",
+  "properties": {
+    "collection": {
+      "type": "string",
+      "title": "Type de collection",
+      "description": "Collection (propre au domaine) \u00e0 laquelle appartient le dossier de m\u00e9tadonn\u00e9es, par exemple : donn\u00e9es non spatiales"
+    },
+    "owner_org": {
+      "type": "string",
+      "title": "\u00c9diteur - Nom actuel de l\u2019organisation",
+      "description": "Titre de l\u2019organisation actuelle (organisme ou minist\u00e8re du GC) principalement responsable de publier le jeu de donn\u00e9es"
+    },
+    "creator": {
+      "type": "string",
+      "title": "Auteur",
+      "description": "Entit\u00e9s individuelles (personnes) principalement responsables de produire le jeu de donn\u00e9es (s\u00e9parer les multiples entit\u00e9s par des virgules)"
+    },
+    "maintainer_email": {
+      "type": "string",
+      "title": "Courriel - Personne-ressource",
+      "description": "Courriel de la personne-ressource \u00e0 contacter au sujet du jeu de donn\u00e9es ou de l\u2019ensemble de donn\u00e9es"
+    },
+    "subject": {
+      "type": "string",
+      "title": "Sujet",
+      "description": "Le sujet du contenu du jeu de donn\u00e9es. Vous pouvez s\u00e9lectionner ou d\u00e9s\u00e9lectionner de multiples sujets (Ctrl+Clic)"
+    },
+    "audience": {
+      "type": "string",
+      "title": "Audience",
+      "description": "Description de l\u2019audience ou du groupe de personnes pour lequel le jeu de donn\u00e9es d\u00e9crit est destin\u00e9 ou utile. Vous pouvez s\u00e9lectionner ou d\u00e9s\u00e9lectionner de multiples options (Ctrl+Clic)"
+    },
+    "place_of_publication": {
+      "type": "string",
+      "title": "Endroit de publication",
+      "description": "La r\u00e9gion o\u00f9 le jeu de donn\u00e9es a \u00e9t\u00e9 publi\u00e9 initialement. Vous pouvez s\u00e9lectionner ou d\u00e9s\u00e9lectionner de multiples options (Ctrl+Clic)"
+    },
+    "spatial": {
+      "type": "string",
+      "title": "\u00c9l\u00e9ment spatial",
+      "description": "\u00c9tendue de l\u2019applicabilit\u00e9 spatiale d\u2019un produit. Cet \u00e9l\u00e9ment peut inclure un cadre de d\u00e9limitation ou une cha\u00eene GeoJson."
+    },
+    "geographic_region": {
+      "type": "string",
+      "title": "Nom de la r\u00e9gion g\u00e9ographique",
+      "description": "R\u00e9gion g\u00e9ographique d\u2019un jeu de donn\u00e9es. Vous pouvez s\u00e9lectionner ou d\u00e9s\u00e9lectionner de multiples r\u00e9gions (Ctrl+Clic)"
+    },
+    "time_period_coverage_start": {
+      "type": "string",
+      "title": "Couverture de la p\u00e9riode de temps - date de d\u00e9but",
+      "description": "Date de d\u00e9but de la p\u00e9riode couverte par le jeu de donn\u00e9es (AAAA-MM-JJ)"
+    },
+    "time_period_coverage_end": {
+      "type": "string",
+      "title": "Couverture de la p\u00e9riode de temps - date de fin",
+      "description": "Date de fin de la p\u00e9riode couverte par le jeu de donn\u00e9es (AAAA-MM-JJ)"
+    },
+    "frequency": {
+      "type": "string",
+      "title": "Fr\u00e9quence d'entretien et de mise \u00e0 jour",
+      "description": "Fr\u00e9quence \u00e0 laquelle les changements et les ajouts sont apport\u00e9s au jeu de donn\u00e9es initial"
+    },
+    "date_published": {
+      "type": "string",
+      "title": "Date de publication",
+      "description": "Date de publication du jeu de donn\u00e9es (AAAA-MM-JJ)"
+    },
+    "date_modified": {
+      "type": "string",
+      "title": "Date de modification",
+      "description": "Date \u00e0 laquelle le jeu de donn\u00e9es a \u00e9t\u00e9 mis \u00e0 jour (AAAA-MM-JJ)"
+    },
+    "federated_date_modified": {
+      "type": "string",
+      "title": "Date de modification de l'jeu de donn\u00e9es f\u00e9d\u00e9r\u00e9es",
+      "description": "Date \u00e0 laquelle le jeu de donn\u00e9es du partenaire de donn\u00e9es f\u00e9d\u00e9r\u00e9es a \u00e9t\u00e9 modifi\u00e9 (AAAA-MM-JJ)"
+    },
+    "digital_object_identifier": {
+      "type": "string",
+      "title": "Identificateur d\u2019objet num\u00e9rique",
+      "description": "L'identificateur d'objet num\u00e9rique assign\u00e9 au jeu de donn\u00e9es. Pour obtenir de plus amples renseignements, veuillez consulter le site http://cisti-icist.nrc-cnrc.gc.ca/fra/services/icist/datacite-canada/index.html"
+    },
+    "jurisdiction": {
+      "type": "string",
+      "title": "Juridiction",
+      "description": "\u00c9tendue de l\u2019autorit\u00e9 judiciaire, de l\u2019autorit\u00e9 d\u2019application de la loi ou d\u2019un autre type d\u2019autorit\u00e9. Par exemple, l'ordre de gouvernement ayant fourni le jeu de donn\u00e9es."
+    },
+    "license_id": {
+      "type": "string",
+      "title": "Licence",
+      "description": "Licence s\u2019appliquant au jeu de donn\u00e9es"
+    },
+    "restrictions": {
+      "type": "string",
+      "title": "Restrictions d'acc\u00e8s",
+      "description": "Restrictions d\u2019acc\u00e8s du jeu de donn\u00e9es"
+    },
+    "ready_to_publish": {
+      "type": "string",
+      "title": "Pr\u00eat \u00e0 publier",
+      "description": "La s\u00e9lection de l\u2019option \u00ab Oui \u00bb d\u00e9signe le jeu de donn\u00e9es comme pr\u00eat \u00e0 \u00eatre publi\u00e9 par l'entremise du Portail du gouvernement ouvert. Si l\u2019option \u00ab Non \u00bb est s\u00e9lectionn\u00e9e, il sera sauvegard\u00e9 comme une \u00ab \u00e9bauche \u00bb. Si le jeu de donn\u00e9es a d\u00e9j\u00e0 \u00e9t\u00e9 publi\u00e9 dans le portail, le fait de s\u00e9lectionner \u00ab Non \u00bb fera en sorte qu\u2019il ne le sera plus."
+    },
+    "portal_release_date": {
+      "type": "string",
+      "title": "Date de lancement du portail",
+      "description": "La date \u00e0 laquelle le jeu de donn\u00e9es peut \u00eatre publi\u00e9 dans le portail (AAAA-MM-JJ)"
+    },
+    "presentation_form": {
+      "type": "string",
+      "title": "Type de repr\u00e9sentation spatiale",
+      "description": "Le format dans lequel la ressource est disponible"
+    }
+  }
+}

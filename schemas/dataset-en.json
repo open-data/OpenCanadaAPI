@@ -6,20 +6,151 @@
       "title": "Collection Type",
       "description": "The collection (domain specific) to which the metadata record belongs, Example: Non-Spatial"
     },
+    "metadata_contact": {
+      "type": "object",
+      "title": "Metadata contact",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "parent_id": {
+      "type": "string",
+      "title": "Parent identifier",
+      "description": ""
+    },
+    "hierarchy_level": {
+      "type": "string",
+      "title": "Hierarchy level",
+      "description": ""
+    },
+    "file_id": {
+      "type": "string",
+      "title": "File Identifier",
+      "description": ""
+    },
+    "short_key": {
+      "type": "string",
+      "title": "Short Key",
+      "description": ""
+    },
+    "title_translated": {
+      "type": "object",
+      "title": "Title",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "owner_org": {
       "type": "string",
       "title": "Publisher - Current Organization Name",
       "description": "The Title of the current Organization (GC Department or Agency) primarily responsible for publishing the dataset"
+    },
+    "org_title_at_publication": {
+      "type": "object",
+      "title": "Publisher - Organization Name at Publication",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "org_section": {
+      "type": "object",
+      "title": "Publisher - Organization Section Name",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
     },
     "creator": {
       "type": "string",
       "title": "Creator",
       "description": "Individual entities (persons) primarily responsible for making the dataset (separate multiple entities by commas)"
     },
+    "position_name": {
+      "type": "object",
+      "title": "Position Name",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "responsible_role": {
+      "type": "string",
+      "title": "Role",
+      "description": ""
+    },
+    "contact_information": {
+      "type": "string",
+      "title": "Contact Information",
+      "description": ""
+    },
+    "topic_category": {
+      "type": "string",
+      "title": "Topic category",
+      "description": ""
+    },
+    "contributor": {
+      "type": "object",
+      "title": "Contributor",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "maintainer_email": {
       "type": "string",
       "title": "Contact Email",
       "description": "The contact person's email for the dataset"
+    },
+    "notes_translated": {
+      "type": "object",
+      "title": "Description",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "keywords": {
+      "type": "string",
+      "title": "Keywords",
+      "description": ""
     },
     "subject": {
       "type": "string",
@@ -71,15 +202,84 @@
       "title": "Date Modified",
       "description": "The date on which the dataset was updated (YYYY-MM-DD)"
     },
+    "program_page_url": {
+      "type": "object",
+      "title": "Homepage",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "federated_date_modified": {
       "type": "string",
       "title": "Federated Dateset Modified Date",
       "description": "The date on which the federated data partner's dataset was modified (YYYY-MM-DD)"
     },
+    "data_series_name": {
+      "type": "object",
+      "title": "Series Title",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "data_series_issue_identification": {
+      "type": "object",
+      "title": "Series Issue ID",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "digital_object_identifier": {
       "type": "string",
       "title": "Digital Object Identifier (DOI)",
       "description": "The Digital Object Identifier assigned to the dataset. For more information visit: http://cisti-icist.nrc-cnrc.gc.ca/eng/services/cisti/datacite-canada/index.html"
+    },
+    "reference_system_information": {
+      "type": "string",
+      "title": "Reference System Information",
+      "description": ""
+    },
+    "distributor": {
+      "type": "string",
+      "title": "Distributor",
+      "description": ""
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "description": ""
+    },
+    "association_type": {
+      "type": "string",
+      "title": "Association Type",
+      "description": ""
+    },
+    "aggregate_identifier": {
+      "type": "string",
+      "title": "Aggregate dataset identifier",
+      "description": ""
+    },
+    "spatial_representation_type": {
+      "type": "string",
+      "title": "Spatial Representation Type",
+      "description": ""
     },
     "jurisdiction": {
       "type": "string",
@@ -95,6 +295,11 @@
       "type": "string",
       "title": "Access Restrictions",
       "description": "The access restrictions of the dataset"
+    },
+    "imso_approval": {
+      "type": "string",
+      "title": "Approval",
+      "description": ""
     },
     "ready_to_publish": {
       "type": "string",

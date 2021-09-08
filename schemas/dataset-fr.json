@@ -6,20 +6,151 @@
       "title": "Type de collection",
       "description": "Collection (propre au domaine) \u00e0 laquelle appartient le dossier de m\u00e9tadonn\u00e9es, par exemple : donn\u00e9es non spatiales"
     },
+    "metadata_contact": {
+      "type": "object",
+      "title": "Contact m\u00e9tadonn\u00e9e",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "parent_id": {
+      "type": "string",
+      "title": "Identifiant parent",
+      "description": ""
+    },
+    "hierarchy_level": {
+      "type": "string",
+      "title": "Port\u00e9e hi\u00e9rarchique",
+      "description": ""
+    },
+    "file_id": {
+      "type": "string",
+      "title": "Identifiant m\u00e9tadonn\u00e9es",
+      "description": ""
+    },
+    "short_key": {
+      "type": "string",
+      "title": "Identifiant court",
+      "description": ""
+    },
+    "title_translated": {
+      "type": "object",
+      "title": "Titre",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "owner_org": {
       "type": "string",
       "title": "\u00c9diteur - Nom actuel de l\u2019organisation",
       "description": "Titre de l\u2019organisation actuelle (organisme ou minist\u00e8re du GC) principalement responsable de publier le jeu de donn\u00e9es"
+    },
+    "org_title_at_publication": {
+      "type": "object",
+      "title": "Organisation - Titre lors de la publication",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "org_section": {
+      "type": "object",
+      "title": "\u00c9diteur - Organisation - Nom de la section",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
     },
     "creator": {
       "type": "string",
       "title": "Auteur",
       "description": "Entit\u00e9s individuelles (personnes) principalement responsables de produire le jeu de donn\u00e9es (s\u00e9parer les multiples entit\u00e9s par des virgules)"
     },
+    "position_name": {
+      "type": "object",
+      "title": "Nom position",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "responsible_role": {
+      "type": "string",
+      "title": "R\u00f4le",
+      "description": ""
+    },
+    "contact_information": {
+      "type": "string",
+      "title": "Information contact",
+      "description": ""
+    },
+    "topic_category": {
+      "type": "string",
+      "title": "Cat\u00e9gorie th\u00e9matique",
+      "description": ""
+    },
+    "contributor": {
+      "type": "object",
+      "title": "Contributeur",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "maintainer_email": {
       "type": "string",
       "title": "Courriel - Personne-ressource",
       "description": "Courriel de la personne-ressource \u00e0 contacter au sujet du jeu de donn\u00e9es ou de l\u2019ensemble de donn\u00e9es"
+    },
+    "notes_translated": {
+      "type": "object",
+      "title": "Description",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "keywords": {
+      "type": "string",
+      "title": "Mots cl\u00e9s",
+      "description": ""
     },
     "subject": {
       "type": "string",
@@ -71,15 +202,84 @@
       "title": "Date de modification",
       "description": "Date \u00e0 laquelle le jeu de donn\u00e9es a \u00e9t\u00e9 mis \u00e0 jour (AAAA-MM-JJ)"
     },
+    "program_page_url": {
+      "type": "object",
+      "title": "URL de la page d'accueil",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "federated_date_modified": {
       "type": "string",
       "title": "Date de modification de l'jeu de donn\u00e9es f\u00e9d\u00e9r\u00e9es",
       "description": "Date \u00e0 laquelle le jeu de donn\u00e9es du partenaire de donn\u00e9es f\u00e9d\u00e9r\u00e9es a \u00e9t\u00e9 modifi\u00e9 (AAAA-MM-JJ)"
     },
+    "data_series_name": {
+      "type": "object",
+      "title": "Nom de la s\u00e9rie",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "data_series_issue_identification": {
+      "type": "object",
+      "title": "Num\u00e9ro de publication de la s\u00e9rie",
+      "description": "",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
     "digital_object_identifier": {
       "type": "string",
       "title": "Identificateur d\u2019objet num\u00e9rique",
       "description": "L'identificateur d'objet num\u00e9rique assign\u00e9 au jeu de donn\u00e9es. Pour obtenir de plus amples renseignements, veuillez consulter le site http://cisti-icist.nrc-cnrc.gc.ca/fra/services/icist/datacite-canada/index.html"
+    },
+    "reference_system_information": {
+      "type": "string",
+      "title": "Information syst\u00e8me r\u00e9f\u00e9rence",
+      "description": ""
+    },
+    "distributor": {
+      "type": "string",
+      "title": "Distributeur",
+      "description": ""
+    },
+    "status": {
+      "type": "string",
+      "title": "\u00c9tat",
+      "description": ""
+    },
+    "association_type": {
+      "type": "string",
+      "title": "Type association",
+      "description": ""
+    },
+    "aggregate_identifier": {
+      "type": "string",
+      "title": "Identifiant jeu donn\u00e9es aggr\u00e9g\u00e9es",
+      "description": ""
+    },
+    "spatial_representation_type": {
+      "type": "string",
+      "title": "Type repr\u00e9sentation spatiale",
+      "description": ""
     },
     "jurisdiction": {
       "type": "string",
@@ -95,6 +295,11 @@
       "type": "string",
       "title": "Restrictions d'acc\u00e8s",
       "description": "Restrictions d\u2019acc\u00e8s du jeu de donn\u00e9es"
+    },
+    "imso_approval": {
+      "type": "string",
+      "title": "Approbation",
+      "description": ""
     },
     "ready_to_publish": {
       "type": "string",

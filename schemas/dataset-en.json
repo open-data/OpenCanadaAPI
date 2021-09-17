@@ -4,7 +4,25 @@
     "collection": {
       "type": "string",
       "title": "Collection Type",
-      "description": "The collection (domain specific) to which the metadata record belongs, Example: Non-Spatial"
+      "description": "The collection (domain specific) to which the metadata record belongs, Example: Non-Spatial",
+      "enum": [
+        "consultations",
+        "primary",
+        "code",
+        "api",
+        "app",
+        "geogratis",
+        "fgp",
+        "publication",
+        "transition",
+        "transition_deputy",
+        "parliament_report",
+        "question_period",
+        "parliament_committee",
+        "parliament_committee_deputy",
+        "aia",
+        "federated"
+      ]
     },
     "metadata_contact": {
       "type": "object",
@@ -190,7 +208,29 @@
     "frequency": {
       "type": "string",
       "title": "Maintenance and Update Frequency",
-      "description": "The frequency with which changes and additions are made to the initial dataset"
+      "description": "The frequency with which changes and additions are made to the initial dataset",
+      "enum": [
+        "as_needed",
+        "continual",
+        "P1D",
+        "P0.33W",
+        "P0.5W",
+        "P1W",
+        "P2W",
+        "P0.5M",
+        "P1M",
+        "P2M",
+        "P3M",
+        "P4M",
+        "P6M",
+        "P1Y",
+        "P2Y",
+        "P3Y",
+        "P4Y",
+        "irregular",
+        "not_planned",
+        "unknown"
+      ]
     },
     "date_published": {
       "type": "string",
@@ -264,7 +304,17 @@
     "status": {
       "type": "string",
       "title": "Status",
-      "description": ""
+      "description": "",
+      "enum": [
+        "completed",
+        "historical_archive",
+        "obsolete",
+        "ongoing",
+        "planned",
+        "required",
+        "under_development",
+        "proposed"
+      ]
     },
     "association_type": {
       "type": "string",
@@ -284,7 +334,13 @@
     "jurisdiction": {
       "type": "string",
       "title": "Jurisdiction",
-      "description": "The extent or range of judicial, law enforcement or other authority. Example: Level of government that contributed the dataset."
+      "description": "The extent or range of judicial, law enforcement or other authority. Example: Level of government that contributed the dataset.",
+      "enum": [
+        "federal",
+        "provincial",
+        "municipal",
+        "user"
+      ]
     },
     "license_id": {
       "type": "string",
@@ -294,17 +350,28 @@
     "restrictions": {
       "type": "string",
       "title": "Access Restrictions",
-      "description": "The access restrictions of the dataset"
+      "description": "The access restrictions of the dataset",
+      "enum": [
+        "unrestricted"
+      ]
     },
     "imso_approval": {
       "type": "string",
       "title": "Approval",
-      "description": ""
+      "description": "",
+      "enum": [
+        "false",
+        "true"
+      ]
     },
     "ready_to_publish": {
       "type": "string",
       "title": "Ready to Publish",
-      "description": "Selecting \u2018Yes\u2019 will set this dataset as ready to publish on the Open Government Portal. Selecting \u2018No\u2019 will save it as a \u2018draft\u2019. If the dataset is already published on the portal, selecting 'No' will unpublish it."
+      "description": "Selecting \u2018Yes\u2019 will set this dataset as ready to publish on the Open Government Portal. Selecting \u2018No\u2019 will save it as a \u2018draft\u2019. If the dataset is already published on the portal, selecting 'No' will unpublish it.",
+      "enum": [
+        "false",
+        "true"
+      ]
     },
     "portal_release_date": {
       "type": "string",
@@ -314,7 +381,29 @@
     "presentation_form": {
       "type": "string",
       "title": "Presentation Form",
-      "description": "The form in which the resource is available"
+      "description": "The form in which the resource is available",
+      "enum": [
+        "document_digital",
+        "document_hardcopy",
+        "image_digital",
+        "image_hardcopy",
+        "map_digital",
+        "map_hardcopy",
+        "model_digital",
+        "model_hardcopy",
+        "profile_digital",
+        "profile_hardcopy",
+        "table_digital",
+        "table_hardcopy",
+        "video_digital",
+        "video_hardcopy",
+        "audio_digital",
+        "audio_hardcopy",
+        "multimedia_digital",
+        "multimedia_hardcopy",
+        "diagram_digital",
+        "diagram_hardcopy"
+      ]
     }
   }
 }

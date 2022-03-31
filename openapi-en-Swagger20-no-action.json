@@ -1,0 +1,3014 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.1",
+    "title": "Open Government CKAN API",
+    "description": "This API provides live access to the CKAN portion of the Open Government Portal and Registry systems.\n\n- Portal: https://open.canada.ca\n  - our public data portal\n  - includes data federated from provinces and municipalities\n  - read-only API calls can be made without an API key\n  - authorization required only for publishing federated data\n\n- Registry: https://registry.open.canada.ca\n  - accessible within the Government of Canada (GoC) network\n  - for collecting and publishing data from GoC departments\n  - new datasets must be manually reviewed and approved by the Open Government team\n  - publishes approved datasets to the Production Portal automatically\n  - user account or API key required for all operations\n\nOur Staging sites are for sharing upcoming features and testing integration, and Test sites\nare for features in development.\n",
+    "contact": {
+      "email": "open-ouvert@tbs-sct.gc.ca",
+      "name": "TBS Open Government",
+      "url": "https://open.canada.ca/"
+    }
+  },
+  "host": "open.canada.ca",
+  "basePath": "/data/api",
+  "securityDefinitions": {
+    "internal_api_key": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/action/status_show": {
+      "get": {
+        "description": "Use this API to check that you can reach the server and to check its capabilities.",
+        "summary": "Get the CKAN version and a list of installed extensions",
+        "tags": [
+          "action"
+        ],
+        "operationId": "GettheCKANversionandalistofinstalledextensions",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the CKAN version and a list of installed extensions",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_list": {
+      "get": {
+        "description": "Note: our site uses the same value for the \"name\" and \"id\" fields of datasets\n",
+        "summary": "Get a list of all package ids (datasets)",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Getalistofallpackageids(datasets)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns a list of package ids",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_search": {
+      "get": {
+        "description": "Searches for packages (datasets) matching the specified query terms",
+        "summary": "Find packages (datasets) matching query terms",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Findpackages(datasets)matchingqueryterms",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "A solr query string that will be used to filter and score results"
+          },
+          {
+            "name": "fq",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "A solr filter query that will facet results by removing non-matching items.\nThe available parameters may be discovered by interacting with the\nfacets on https://open.canada.ca/data/dataset and observing the\nquery parameters generated."
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "Sort order for the search results, defaults to `score desc, metadata_modified desc`\nmeaning sort by query score order, and with no query sort by most recently modified"
+          },
+          {
+            "name": "rows",
+            "in": "query",
+            "required": false,
+            "default": 20,
+            "type": "integer",
+            "format": "int32",
+            "description": "Maximum rows to return, clamped to 1000"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "The offset from the beginning of results (0) for pagination"
+          },
+          {
+            "name": "include_private",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "description": "Must be set to `true` to retrieve results on the Registry,\nno effect on the Portal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of packages (datasets) including all metadata available.",
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "description": "Searches for packages (datasets) matching the specified query terms",
+        "summary": "Find packages (datasets) matching query terms",
+        "tags": [
+          "action"
+        ],
+        "operationId": "PostFindpackages(datasets)matchingqueryterms",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ActionPackageSearchRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of packages (datasets) including all metadata available.",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_show": {
+      "get": {
+        "description": "Returns metadata about the package (dataset) corresponding to its UUID. Refer to the [open data schema (type=dataset)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=dataset) or the [open information schema (type=info)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=info) for information about the metadata fields returned.",
+        "summary": "Get metadata about one specific package (dataset)",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Getmetadataaboutonespecificpackage(dataset)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "default": "2916fad5-ebcc-4c86-b0f3-4f619b29f412",
+            "type": "string",
+            "format": "uuid",
+            "description": "The package UUID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A package metadata object",
+            "schema": {
+              "$ref": "#/definitions/dataset-en.json"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_activity_list": {
+      "get": {
+        "description": "Returns a package's activity stream, newest activities first",
+        "summary": "Get the activity stream of a package (dataset)",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Gettheactivitystreamofapackage(dataset)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "default": "2916fad5-ebcc-4c86-b0f3-4f619b29f412",
+            "type": "string",
+            "description": "The package UUID"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "default": 0,
+            "type": "integer",
+            "format": "int32",
+            "description": "The offset of the first activity to return, used for pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "default": 31,
+            "type": "integer",
+            "format": "int32",
+            "description": "The maximum number of activities to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of activities",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/organization_activity_list": {
+      "get": {
+        "description": "Return an organization's activity stream, newest activites first",
+        "summary": "Get the activity stream of an organization",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Gettheactivitystreamofanorganization",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "default": "ec",
+            "type": "string",
+            "description": "The id or name (short form) of the organization"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "default": 0,
+            "type": "integer",
+            "format": "int32",
+            "description": "The offset of the first activity to return, used for pagination"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "default": 31,
+            "type": "integer",
+            "format": "int32",
+            "description": "The maximum number of activities to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of an organization's activities",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/organization_list_for_user": {
+      "get": {
+        "description": "Return the organizations that the user has a given permission for",
+        "summary": "Get organizations that a user has a given permission for",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Getorganizationsthatauserhasagivenpermissionfor",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "The name or id of the user, defaults to the user making the request"
+          },
+          {
+            "name": "permission",
+            "in": "query",
+            "required": false,
+            "default": "manage_group",
+            "type": "string",
+            "description": "The permission the user has against the returned organization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of organizations for given permission",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/organization_show": {
+      "get": {
+        "description": "Return the details of an organization",
+        "summary": "Get details of a specific organization",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Getdetailsofaspecificorganization",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "default": "tbs-sct",
+            "type": "string",
+            "description": "The id or name (short form) of the organization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List organization details",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/organization_list": {
+      "get": {
+        "description": "Returns the names (short forms) of all indexed organizations",
+        "summary": "Get names of all organizations",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Getnamesofallorganizations",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of organizations",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/resource_search": {
+      "get": {
+        "description": "Search resources based on their field values. Note that [package_search](#/action/get_action_package_search) has better performance and more search functionality than this endpoint.",
+        "summary": "Find resources",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Findresources",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "default": "format:csv",
+            "type": "string",
+            "description": "The search criteria string or list of strings of the form ``{field}:{term1}``"
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "A field on the resource model that orders the results"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "default": 0,
+            "type": "integer",
+            "format": "int32",
+            "description": "Apply an offset to the query"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "default": 0,
+            "type": "integer",
+            "format": "int32",
+            "description": "Apply a limit to the query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of resources",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/resource_show": {
+      "get": {
+        "description": "Returns the metadata of a resource. Refer to the [resource_fields value in the dataset schema](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=dataset) for information about the metadata fields.",
+        "summary": "Get metadata for a specific resource",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Getmetadataforaspecificresource",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "default": "e6c8bb1d-3726-418b-9b7e-1d97a9bbb817",
+            "type": "string",
+            "description": "The id of the resource"
+          },
+          {
+            "name": "include_tracking",
+            "in": "query",
+            "required": false,
+            "default": false,
+            "type": "boolean",
+            "description": "Return tracking (usage) information"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return metadata of a resource",
+            "schema": {
+              "$ref": "#/definitions/Resource"
+            },
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/datastore_search": {
+      "get": {
+        "description": "The datastore_search action allows you to search data in a resource.\n\nWell-formatted CSV files that are uploaded (not linked) are automatically\nloaded into the datastore.\n",
+        "summary": "Search a datastore resource",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Searchadatastoreresource",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uuid",
+            "description": "id or alias of the resource to be searched against"
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "matching conditions to select, `application/json` POST requests only"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "full text query searching across all columns in each row"
+          },
+          {
+            "name": "distinct",
+            "in": "query",
+            "required": false,
+            "default": false,
+            "type": "boolean",
+            "description": "return only distinct rows"
+          },
+          {
+            "name": "plain",
+            "in": "query",
+            "required": false,
+            "default": true,
+            "type": "boolean",
+            "description": "treat as plain text query"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "default": "english",
+            "type": "string",
+            "description": "language of the full text query"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "default": 100,
+            "type": "integer",
+            "format": "int32",
+            "description": "maximum number of rows to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "description": "offset this number of rows"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "comma-separated string of column names to return"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "comma-separated string of column names with sort order"
+          },
+          {
+            "name": "include_total",
+            "in": "query",
+            "required": false,
+            "default": true,
+            "type": "boolean",
+            "description": "calculate and return the total number of matching rows, set to false for improved performance"
+          },
+          {
+            "name": "records_format",
+            "in": "query",
+            "required": false,
+            "enum": [
+              "objects",
+              "lists",
+              "csv",
+              "tsv"
+            ],
+            "default": "objects",
+            "type": "string",
+            "description": "the format for the records return value, set to `csv` or `tsv` for improved performance"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of packages (datasets) including all metadata available.",
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "description": "The datastore_search action allows you to search data in a resource.\n\nWell-formatted CSV files that are uploaded (not linked) are automatically\nloaded into the datastore.\n",
+        "summary": "Search a datastore resource",
+        "tags": [
+          "action"
+        ],
+        "operationId": "PostSearchadatastoreresource",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ActionDatastoreSearchRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of packages (datasets) including all metadata available.",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/scheming_dataset_schema_show": {
+      "get": {
+        "description": "Dataset metadata schemas are defined in the [ckanext-scheming](https://github.com/ckan/ckanext-scheming)\nformat.\n",
+        "summary": "Return the schema for a dataset type",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Returntheschemaforadatasettype",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "enum": [
+              "dataset",
+              "info"
+            ],
+            "default": "dataset",
+            "type": "string",
+            "description": "The dataset type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns metadata schema",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_create": {
+      "post": {
+        "description": "The exact fields available will depend on the `type` parameter.\n\nRefer to the [open data schema (type=dataset)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=dataset)\nor the [open information schema (type=info)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=info)\nfor information about all the metadata fields available.\n",
+        "summary": "Create a new dataset (package)",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Createanewdataset(package)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/dataset-en.json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a copy of the dataset metadata created",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_update": {
+      "post": {
+        "description": "The exact fields available will depend on the `type` parameter.\n\nRefer to the [open data schema (type=dataset)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=dataset)\nor the [open information schema (type=info)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=info)\nfor information about all the metadata fields available.\n",
+        "summary": "Update an existing dataset (package)",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Updateanexistingdataset(package)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/dataset-en.json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a copy of the dataset metadata updated",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_patch": {
+      "post": {
+        "description": "Any fields not passed will retain their original values.\n\nThe exact fields available will depend on the `type` parameter.\n\nRefer to the [open data schema (type=dataset)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=dataset)\nor the [open information schema (type=info)](https://open.canada.ca/data/api/action/scheming_dataset_schema_show?type=info)\nfor information about all the metadata fields available.\n",
+        "summary": "Update only specific fields of an existing dataset (package)",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Updateonlyspecificfieldsofanexistingdataset(package)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/dataset-en.json"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a copy of the dataset metadata updated",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/package_delete": {
+      "post": {
+        "description": "Remove a dataset and all its resources including uploaded files (where applicable).\n",
+        "summary": "Delete a dataset (package)",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Deleteadataset(package)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ActionPackageDeleteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/resource_create": {
+      "post": {
+        "description": "Add a resource to a dataset (package). POST using `multipart/form-data` to upload a file.\n",
+        "summary": "Create a new resource",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Createanewresource",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "clear_upload",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "Set to \"true\" to remove an existing uploaded file"
+          },
+          {
+            "name": "upload",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "format": "file",
+            "description": "Upload a file instead of providing a url"
+          },
+          {
+            "name": "unique_identifier",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "A unique phrase or string which identifies the resource."
+          },
+          {
+            "name": "name_translated",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "related_relationship",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "continues",
+              "continued_by",
+              "continues_in_part",
+              "continued_in_part_by",
+              "supersedes",
+              "superseded_by",
+              "formed_by_the_union_of",
+              "superseded_in_part_by",
+              "absorbed",
+              "absorbed_by",
+              "absorbed_in_part",
+              "absorbed_in_part_by",
+              "separated_from",
+              "split_into",
+              "merged_into",
+              "changed_back_to"
+            ],
+            "type": "string",
+            "description": "The Related Record’s relationship with the dataset"
+          },
+          {
+            "name": "related_type",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "dataset",
+              "info",
+              "application",
+              "other"
+            ],
+            "type": "string",
+            "description": "The portal or page to which the Related Record belongs"
+          },
+          {
+            "name": "date_published",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "Date of formal issuance (e.g., publication) of the resource."
+          },
+          {
+            "name": "resource_type",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "abstract",
+              "agreement",
+              "contractual_material",
+              "intergovernmental_agreement",
+              "lease",
+              "memorandum_of_understanding",
+              "nondisclosure_agreement",
+              "servicelevel_agreement",
+              "affidavit",
+              "application",
+              "api",
+              "architectural_or_technical_design",
+              "article",
+              "assessment",
+              "audit",
+              "environmental_assessment",
+              "examination",
+              "gap_assessment",
+              "lessons_learned",
+              "performance_indicator",
+              "risk_assessment",
+              "biography",
+              "briefing_material",
+              "backgrounder",
+              "business_case",
+              "claim",
+              "comments",
+              "conference_proceedings",
+              "consultation",
+              "contact_information",
+              "correspondence",
+              "ministerial_correspondence",
+              "memorandum",
+              "dataset",
+              "delegation_of_authority",
+              "educational_material",
+              "employment_opportunity",
+              "event",
+              "fact_sheet",
+              "financial_material",
+              "budget",
+              "funding_proposal",
+              "invoice",
+              "financial_statement",
+              "form",
+              "framework",
+              "geospatial_material",
+              "guide",
+              "best_practices",
+              "intellectual_property_statement",
+              "legal_complaint",
+              "legal_opinion",
+              "legislation_and_regulations",
+              "licenses_and_permits",
+              "literary_material",
+              "statement",
+              "media_release",
+              "meeting_material",
+              "agenda",
+              "minutes",
+              "memorandum_to_cabinet",
+              "multimedia_resource",
+              "notice",
+              "organizational_description",
+              "plan",
+              "business_plan",
+              "strategic_plan",
+              "policy",
+              "white_paper",
+              "presentation",
+              "procedure",
+              "profile",
+              "project_material",
+              "project_charter",
+              "project_plan",
+              "project_proposal",
+              "promotional_material",
+              "publication",
+              "faq",
+              "record_of_decision",
+              "report",
+              "annual_report",
+              "interim_report",
+              "research_proposal",
+              "resource_list",
+              "routing_slip",
+              "blog_entry",
+              "sound_recording",
+              "specification",
+              "statistics",
+              "still_image",
+              "submission",
+              "survey",
+              "terminology",
+              "terms_of_reference",
+              "tool",
+              "training_material",
+              "transcript",
+              "website",
+              "web_service",
+              "workflow"
+            ],
+            "type": "string",
+            "description": "The nature or genre of the content of the resource"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The [estimated] size of a distribution in bytes."
+          },
+          {
+            "name": "character_set",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "UTF-8",
+              "US-ASCII",
+              "ISO-10646-UCS-2",
+              "ISO-10646-UCS-4",
+              "UTF-7",
+              "UTF-16",
+              "ISO-8859-1",
+              "ISO-8859-2",
+              "ISO-8859-3",
+              "ISO-8859-4",
+              "ISO-8859-5",
+              "ISO-8859-6",
+              "ISO-8859-7",
+              "ISO-8859-8",
+              "ISO-8859-9",
+              "ISO-8859-10",
+              "TIS-620",
+              "ISO-8859-13",
+              "ISO-8859-14",
+              "ISO-8859-15",
+              "ISO-8859-16",
+              "JIS_Encoding",
+              "Shift_JIS",
+              "EUC-JP",
+              "EUC-KR",
+              "Big5",
+              "GB2312",
+              "EBCDIC-US"
+            ],
+            "type": "string",
+            "description": "This is the character set of the resource"
+          },
+          {
+            "name": "format",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "AAC",
+              "AIFF",
+              "ASCII Grid",
+              "APK",
+              "AVI",
+              "BAG",
+              "BMP",
+              "BWF",
+              "CCT",
+              "CDED ASCII",
+              "CDF",
+              "CDR",
+              "COD",
+              "CSV",
+              "DBD",
+              "DBF",
+              "DICOM",
+              "DNG",
+              "DOC",
+              "DOCX",
+              "DXF",
+              "E00",
+              "ECW",
+              "EDI",
+              "EMF",
+              "EPUB3",
+              "EPUB2",
+              "EPS",
+              "ESRI REST",
+              "EXE",
+              "FGDB/GDB",
+              "FITS",
+              "Flat raster binary",
+              "GDB",
+              "GeoPDF",
+              "GeoRSS",
+              "GeoTIF",
+              "GEOJSON",
+              "GPKG",
+              "GIF",
+              "GML",
+              "GRD",
+              "GRIB1",
+              "GRIB2",
+              "HDF",
+              "HTML",
+              "IATI",
+              "IPA",
+              "JAR",
+              "JFIF",
+              "JP2",
+              "JPG",
+              "JSON",
+              "JSONLD",
+              "JSONL",
+              "KML",
+              "KMZ",
+              "LAS",
+              "LYR",
+              "TAB",
+              "MFX",
+              "MOV",
+              "MPEG",
+              "MPEG-1",
+              "MP3",
+              "MXD",
+              "NetCDF",
+              "ODP",
+              "ODS",
+              "ODT",
+              "PDF",
+              "PDF/A-1",
+              "PDF/A-2",
+              "PDF/UA",
+              "PNG",
+              "PPT",
+              "PPTX",
+              "RDF",
+              "TTL",
+              "NT",
+              "RDFa",
+              "RSS",
+              "RTF",
+              "SAR",
+              "SAS",
+              "SAV",
+              "SEGY",
+              "SHP",
+              "SQL",
+              "SQLITE3",
+              "SQLITE",
+              "SVG",
+              "TIFF",
+              "TRIG",
+              "TRIX",
+              "TFW",
+              "TXT",
+              "VPF",
+              "WAV",
+              "WCS",
+              "WFS",
+              "WMS",
+              "WMTS",
+              "WMV",
+              "WPS",
+              "XML",
+              "XLS",
+              "XLSM",
+              "XLSX",
+              "ZIP",
+              "other"
+            ],
+            "type": "string",
+            "description": "The file format, physical medium, or dimensions of the resource."
+          },
+          {
+            "name": "language",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The language of the resource. You may select or deselect multiple languages (Ctrl+Click)."
+          },
+          {
+            "name": "url",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The location for online access to the distribution of the resource, if the file resides elsewhere."
+          },
+          {
+            "name": "data_quality",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a copy of the resource metadata created",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/resource_update": {
+      "post": {
+        "description": "POST using `multipart/form-data` to upload a file.\n",
+        "summary": "Update an existing resource",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Updateanexistingresource",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "clear_upload",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "Set to \"true\" to remove an existing uploaded file"
+          },
+          {
+            "name": "upload",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "format": "file",
+            "description": "Upload a file instead of providing a url"
+          },
+          {
+            "name": "unique_identifier",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "A unique phrase or string which identifies the resource."
+          },
+          {
+            "name": "name_translated",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "related_relationship",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "continues",
+              "continued_by",
+              "continues_in_part",
+              "continued_in_part_by",
+              "supersedes",
+              "superseded_by",
+              "formed_by_the_union_of",
+              "superseded_in_part_by",
+              "absorbed",
+              "absorbed_by",
+              "absorbed_in_part",
+              "absorbed_in_part_by",
+              "separated_from",
+              "split_into",
+              "merged_into",
+              "changed_back_to"
+            ],
+            "type": "string",
+            "description": "The Related Record’s relationship with the dataset"
+          },
+          {
+            "name": "related_type",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "dataset",
+              "info",
+              "application",
+              "other"
+            ],
+            "type": "string",
+            "description": "The portal or page to which the Related Record belongs"
+          },
+          {
+            "name": "date_published",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "Date of formal issuance (e.g., publication) of the resource."
+          },
+          {
+            "name": "resource_type",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "abstract",
+              "agreement",
+              "contractual_material",
+              "intergovernmental_agreement",
+              "lease",
+              "memorandum_of_understanding",
+              "nondisclosure_agreement",
+              "servicelevel_agreement",
+              "affidavit",
+              "application",
+              "api",
+              "architectural_or_technical_design",
+              "article",
+              "assessment",
+              "audit",
+              "environmental_assessment",
+              "examination",
+              "gap_assessment",
+              "lessons_learned",
+              "performance_indicator",
+              "risk_assessment",
+              "biography",
+              "briefing_material",
+              "backgrounder",
+              "business_case",
+              "claim",
+              "comments",
+              "conference_proceedings",
+              "consultation",
+              "contact_information",
+              "correspondence",
+              "ministerial_correspondence",
+              "memorandum",
+              "dataset",
+              "delegation_of_authority",
+              "educational_material",
+              "employment_opportunity",
+              "event",
+              "fact_sheet",
+              "financial_material",
+              "budget",
+              "funding_proposal",
+              "invoice",
+              "financial_statement",
+              "form",
+              "framework",
+              "geospatial_material",
+              "guide",
+              "best_practices",
+              "intellectual_property_statement",
+              "legal_complaint",
+              "legal_opinion",
+              "legislation_and_regulations",
+              "licenses_and_permits",
+              "literary_material",
+              "statement",
+              "media_release",
+              "meeting_material",
+              "agenda",
+              "minutes",
+              "memorandum_to_cabinet",
+              "multimedia_resource",
+              "notice",
+              "organizational_description",
+              "plan",
+              "business_plan",
+              "strategic_plan",
+              "policy",
+              "white_paper",
+              "presentation",
+              "procedure",
+              "profile",
+              "project_material",
+              "project_charter",
+              "project_plan",
+              "project_proposal",
+              "promotional_material",
+              "publication",
+              "faq",
+              "record_of_decision",
+              "report",
+              "annual_report",
+              "interim_report",
+              "research_proposal",
+              "resource_list",
+              "routing_slip",
+              "blog_entry",
+              "sound_recording",
+              "specification",
+              "statistics",
+              "still_image",
+              "submission",
+              "survey",
+              "terminology",
+              "terms_of_reference",
+              "tool",
+              "training_material",
+              "transcript",
+              "website",
+              "web_service",
+              "workflow"
+            ],
+            "type": "string",
+            "description": "The nature or genre of the content of the resource"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The [estimated] size of a distribution in bytes."
+          },
+          {
+            "name": "character_set",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "UTF-8",
+              "US-ASCII",
+              "ISO-10646-UCS-2",
+              "ISO-10646-UCS-4",
+              "UTF-7",
+              "UTF-16",
+              "ISO-8859-1",
+              "ISO-8859-2",
+              "ISO-8859-3",
+              "ISO-8859-4",
+              "ISO-8859-5",
+              "ISO-8859-6",
+              "ISO-8859-7",
+              "ISO-8859-8",
+              "ISO-8859-9",
+              "ISO-8859-10",
+              "TIS-620",
+              "ISO-8859-13",
+              "ISO-8859-14",
+              "ISO-8859-15",
+              "ISO-8859-16",
+              "JIS_Encoding",
+              "Shift_JIS",
+              "EUC-JP",
+              "EUC-KR",
+              "Big5",
+              "GB2312",
+              "EBCDIC-US"
+            ],
+            "type": "string",
+            "description": "This is the character set of the resource"
+          },
+          {
+            "name": "format",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "AAC",
+              "AIFF",
+              "ASCII Grid",
+              "APK",
+              "AVI",
+              "BAG",
+              "BMP",
+              "BWF",
+              "CCT",
+              "CDED ASCII",
+              "CDF",
+              "CDR",
+              "COD",
+              "CSV",
+              "DBD",
+              "DBF",
+              "DICOM",
+              "DNG",
+              "DOC",
+              "DOCX",
+              "DXF",
+              "E00",
+              "ECW",
+              "EDI",
+              "EMF",
+              "EPUB3",
+              "EPUB2",
+              "EPS",
+              "ESRI REST",
+              "EXE",
+              "FGDB/GDB",
+              "FITS",
+              "Flat raster binary",
+              "GDB",
+              "GeoPDF",
+              "GeoRSS",
+              "GeoTIF",
+              "GEOJSON",
+              "GPKG",
+              "GIF",
+              "GML",
+              "GRD",
+              "GRIB1",
+              "GRIB2",
+              "HDF",
+              "HTML",
+              "IATI",
+              "IPA",
+              "JAR",
+              "JFIF",
+              "JP2",
+              "JPG",
+              "JSON",
+              "JSONLD",
+              "JSONL",
+              "KML",
+              "KMZ",
+              "LAS",
+              "LYR",
+              "TAB",
+              "MFX",
+              "MOV",
+              "MPEG",
+              "MPEG-1",
+              "MP3",
+              "MXD",
+              "NetCDF",
+              "ODP",
+              "ODS",
+              "ODT",
+              "PDF",
+              "PDF/A-1",
+              "PDF/A-2",
+              "PDF/UA",
+              "PNG",
+              "PPT",
+              "PPTX",
+              "RDF",
+              "TTL",
+              "NT",
+              "RDFa",
+              "RSS",
+              "RTF",
+              "SAR",
+              "SAS",
+              "SAV",
+              "SEGY",
+              "SHP",
+              "SQL",
+              "SQLITE3",
+              "SQLITE",
+              "SVG",
+              "TIFF",
+              "TRIG",
+              "TRIX",
+              "TFW",
+              "TXT",
+              "VPF",
+              "WAV",
+              "WCS",
+              "WFS",
+              "WMS",
+              "WMTS",
+              "WMV",
+              "WPS",
+              "XML",
+              "XLS",
+              "XLSM",
+              "XLSX",
+              "ZIP",
+              "other"
+            ],
+            "type": "string",
+            "description": "The file format, physical medium, or dimensions of the resource."
+          },
+          {
+            "name": "language",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The language of the resource. You may select or deselect multiple languages (Ctrl+Click)."
+          },
+          {
+            "name": "url",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The location for online access to the distribution of the resource, if the file resides elsewhere."
+          },
+          {
+            "name": "data_quality",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a copy of the resource metadata updated",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/resource_patch": {
+      "post": {
+        "description": "Any fields not passed will retain their original values.\n\nPOST using `multipart/form-data` to upload a file.\n",
+        "summary": "Update only specific fields of an existing resource",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Updateonlyspecificfieldsofanexistingresource",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "clear_upload",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "Set to \"true\" to remove an existing uploaded file"
+          },
+          {
+            "name": "upload",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "format": "file",
+            "description": "Upload a file instead of providing a url"
+          },
+          {
+            "name": "unique_identifier",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "A unique phrase or string which identifies the resource."
+          },
+          {
+            "name": "name_translated",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "related_relationship",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "continues",
+              "continued_by",
+              "continues_in_part",
+              "continued_in_part_by",
+              "supersedes",
+              "superseded_by",
+              "formed_by_the_union_of",
+              "superseded_in_part_by",
+              "absorbed",
+              "absorbed_by",
+              "absorbed_in_part",
+              "absorbed_in_part_by",
+              "separated_from",
+              "split_into",
+              "merged_into",
+              "changed_back_to"
+            ],
+            "type": "string",
+            "description": "The Related Record’s relationship with the dataset"
+          },
+          {
+            "name": "related_type",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "dataset",
+              "info",
+              "application",
+              "other"
+            ],
+            "type": "string",
+            "description": "The portal or page to which the Related Record belongs"
+          },
+          {
+            "name": "date_published",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "Date of formal issuance (e.g., publication) of the resource."
+          },
+          {
+            "name": "resource_type",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "abstract",
+              "agreement",
+              "contractual_material",
+              "intergovernmental_agreement",
+              "lease",
+              "memorandum_of_understanding",
+              "nondisclosure_agreement",
+              "servicelevel_agreement",
+              "affidavit",
+              "application",
+              "api",
+              "architectural_or_technical_design",
+              "article",
+              "assessment",
+              "audit",
+              "environmental_assessment",
+              "examination",
+              "gap_assessment",
+              "lessons_learned",
+              "performance_indicator",
+              "risk_assessment",
+              "biography",
+              "briefing_material",
+              "backgrounder",
+              "business_case",
+              "claim",
+              "comments",
+              "conference_proceedings",
+              "consultation",
+              "contact_information",
+              "correspondence",
+              "ministerial_correspondence",
+              "memorandum",
+              "dataset",
+              "delegation_of_authority",
+              "educational_material",
+              "employment_opportunity",
+              "event",
+              "fact_sheet",
+              "financial_material",
+              "budget",
+              "funding_proposal",
+              "invoice",
+              "financial_statement",
+              "form",
+              "framework",
+              "geospatial_material",
+              "guide",
+              "best_practices",
+              "intellectual_property_statement",
+              "legal_complaint",
+              "legal_opinion",
+              "legislation_and_regulations",
+              "licenses_and_permits",
+              "literary_material",
+              "statement",
+              "media_release",
+              "meeting_material",
+              "agenda",
+              "minutes",
+              "memorandum_to_cabinet",
+              "multimedia_resource",
+              "notice",
+              "organizational_description",
+              "plan",
+              "business_plan",
+              "strategic_plan",
+              "policy",
+              "white_paper",
+              "presentation",
+              "procedure",
+              "profile",
+              "project_material",
+              "project_charter",
+              "project_plan",
+              "project_proposal",
+              "promotional_material",
+              "publication",
+              "faq",
+              "record_of_decision",
+              "report",
+              "annual_report",
+              "interim_report",
+              "research_proposal",
+              "resource_list",
+              "routing_slip",
+              "blog_entry",
+              "sound_recording",
+              "specification",
+              "statistics",
+              "still_image",
+              "submission",
+              "survey",
+              "terminology",
+              "terms_of_reference",
+              "tool",
+              "training_material",
+              "transcript",
+              "website",
+              "web_service",
+              "workflow"
+            ],
+            "type": "string",
+            "description": "The nature or genre of the content of the resource"
+          },
+          {
+            "name": "size",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The [estimated] size of a distribution in bytes."
+          },
+          {
+            "name": "character_set",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "UTF-8",
+              "US-ASCII",
+              "ISO-10646-UCS-2",
+              "ISO-10646-UCS-4",
+              "UTF-7",
+              "UTF-16",
+              "ISO-8859-1",
+              "ISO-8859-2",
+              "ISO-8859-3",
+              "ISO-8859-4",
+              "ISO-8859-5",
+              "ISO-8859-6",
+              "ISO-8859-7",
+              "ISO-8859-8",
+              "ISO-8859-9",
+              "ISO-8859-10",
+              "TIS-620",
+              "ISO-8859-13",
+              "ISO-8859-14",
+              "ISO-8859-15",
+              "ISO-8859-16",
+              "JIS_Encoding",
+              "Shift_JIS",
+              "EUC-JP",
+              "EUC-KR",
+              "Big5",
+              "GB2312",
+              "EBCDIC-US"
+            ],
+            "type": "string",
+            "description": "This is the character set of the resource"
+          },
+          {
+            "name": "format",
+            "in": "formData",
+            "required": false,
+            "enum": [
+              "AAC",
+              "AIFF",
+              "ASCII Grid",
+              "APK",
+              "AVI",
+              "BAG",
+              "BMP",
+              "BWF",
+              "CCT",
+              "CDED ASCII",
+              "CDF",
+              "CDR",
+              "COD",
+              "CSV",
+              "DBD",
+              "DBF",
+              "DICOM",
+              "DNG",
+              "DOC",
+              "DOCX",
+              "DXF",
+              "E00",
+              "ECW",
+              "EDI",
+              "EMF",
+              "EPUB3",
+              "EPUB2",
+              "EPS",
+              "ESRI REST",
+              "EXE",
+              "FGDB/GDB",
+              "FITS",
+              "Flat raster binary",
+              "GDB",
+              "GeoPDF",
+              "GeoRSS",
+              "GeoTIF",
+              "GEOJSON",
+              "GPKG",
+              "GIF",
+              "GML",
+              "GRD",
+              "GRIB1",
+              "GRIB2",
+              "HDF",
+              "HTML",
+              "IATI",
+              "IPA",
+              "JAR",
+              "JFIF",
+              "JP2",
+              "JPG",
+              "JSON",
+              "JSONLD",
+              "JSONL",
+              "KML",
+              "KMZ",
+              "LAS",
+              "LYR",
+              "TAB",
+              "MFX",
+              "MOV",
+              "MPEG",
+              "MPEG-1",
+              "MP3",
+              "MXD",
+              "NetCDF",
+              "ODP",
+              "ODS",
+              "ODT",
+              "PDF",
+              "PDF/A-1",
+              "PDF/A-2",
+              "PDF/UA",
+              "PNG",
+              "PPT",
+              "PPTX",
+              "RDF",
+              "TTL",
+              "NT",
+              "RDFa",
+              "RSS",
+              "RTF",
+              "SAR",
+              "SAS",
+              "SAV",
+              "SEGY",
+              "SHP",
+              "SQL",
+              "SQLITE3",
+              "SQLITE",
+              "SVG",
+              "TIFF",
+              "TRIG",
+              "TRIX",
+              "TFW",
+              "TXT",
+              "VPF",
+              "WAV",
+              "WCS",
+              "WFS",
+              "WMS",
+              "WMTS",
+              "WMV",
+              "WPS",
+              "XML",
+              "XLS",
+              "XLSM",
+              "XLSX",
+              "ZIP",
+              "other"
+            ],
+            "type": "string",
+            "description": "The file format, physical medium, or dimensions of the resource."
+          },
+          {
+            "name": "language",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The language of the resource. You may select or deselect multiple languages (Ctrl+Click)."
+          },
+          {
+            "name": "url",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": "The location for online access to the distribution of the resource, if the file resides elsewhere."
+          },
+          {
+            "name": "data_quality",
+            "in": "formData",
+            "required": false,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a copy of the resource metadata updated",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/action/resource_delete": {
+      "post": {
+        "description": "Remove a resource from a dataset (package) and its uploaded file (where applicable).\n",
+        "summary": "Delete a resource",
+        "tags": [
+          "action"
+        ],
+        "operationId": "Deletearesource",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": false,
+            "enum": [
+              "application/json"
+            ],
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ActionResourceDeleteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "null",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ActionPackageSearchRequest": {
+      "title": "ActionPackageSearchRequest",
+      "type": "object",
+      "properties": {
+        "q": {
+          "description": "A solr query string that will be used to filter and score results",
+          "type": "string"
+        },
+        "fq": {
+          "description": "A solr filter query that will facet results by removing non-matching items.\nThe available parameters may be discovered by interacting with the\nfacets on https://open.canada.ca/data/dataset and observing the\nquery parameters generated.",
+          "type": "string"
+        },
+        "sort": {
+          "description": "Sort order for the search results, defaults to `score desc, metadata_modified desc`\nmeaning sort by query score order, and with no query sort by most recently modified",
+          "type": "string"
+        },
+        "rows": {
+          "description": "Maximum rows to return, clamped to 1000",
+          "type": "integer",
+          "format": "int32"
+        },
+        "start": {
+          "description": "The offset from the beginning of results (0) for pagination",
+          "type": "integer",
+          "format": "int32"
+        },
+        "include_private": {
+          "description": "Must be set to `true` to retrieve results on the Registry,\nno effect on the Portal",
+          "type": "boolean"
+        }
+      }
+    },
+    "dataset-en.json": {
+      "title": "dataset-en.json",
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Resource"
+          }
+        },
+        "collection": {
+          "$ref": "#/definitions/CollectionType"
+        },
+        "metadata_contact": {
+          "$ref": "#/definitions/Metadatacontact"
+        },
+        "parent_id": {
+          "type": "string"
+        },
+        "hierarchy_level": {
+          "type": "string"
+        },
+        "file_id": {
+          "type": "string"
+        },
+        "short_key": {
+          "type": "string"
+        },
+        "title_translated": {
+          "$ref": "#/definitions/Title"
+        },
+        "owner_org": {
+          "description": "The Title of the current Organization (GC Department or Agency) primarily responsible for publishing the dataset",
+          "type": "string"
+        },
+        "org_title_at_publication": {
+          "$ref": "#/definitions/Publisher-OrganizationNameatPublication"
+        },
+        "org_section": {
+          "$ref": "#/definitions/Publisher-OrganizationSectionName"
+        },
+        "creator": {
+          "description": "Individual entities (persons) primarily responsible for making the dataset (separate multiple entities by commas)",
+          "type": "string"
+        },
+        "position_name": {
+          "$ref": "#/definitions/PositionName"
+        },
+        "responsible_role": {
+          "type": "string"
+        },
+        "contact_information": {
+          "type": "string"
+        },
+        "topic_category": {
+          "type": "string"
+        },
+        "contributor": {
+          "$ref": "#/definitions/Contributor"
+        },
+        "maintainer_email": {
+          "description": "The contact person's email for the dataset",
+          "type": "string"
+        },
+        "notes_translated": {
+          "$ref": "#/definitions/Description"
+        },
+        "keywords": {
+          "type": "string"
+        },
+        "subject": {
+          "description": "The topic of the content of the dataset. You may select or deselect multiple subjects (Ctrl+Click)",
+          "type": "string"
+        },
+        "audience": {
+          "description": "A description of the audience or group of people for whom the described dataset is intended or useful. You may select or deselect multiple options (Ctrl+Click)",
+          "type": "string"
+        },
+        "place_of_publication": {
+          "description": "The region where the dataset was originally published. You may select or deselect multiple options (Ctrl+Click)",
+          "type": "string"
+        },
+        "spatial": {
+          "description": "The range of spatial applicability of a dataset, as a GeoJson string.",
+          "type": "string"
+        },
+        "geographic_region": {
+          "description": "The geographic region of the dataset. You may select or deselect multiple regions (Ctrl+Click)",
+          "type": "string"
+        },
+        "time_period_coverage_start": {
+          "description": "The start date of the period covered by the dataset (YYYY-MM-DD)",
+          "type": "string"
+        },
+        "time_period_coverage_end": {
+          "description": "The end date of the period covered by the dataset (YYYY-MM-DD)",
+          "type": "string"
+        },
+        "frequency": {
+          "$ref": "#/definitions/MaintenanceandUpdateFrequency"
+        },
+        "date_published": {
+          "description": "The date of issuance (e.g., publication) of the dataset (YYYY-MM-DD)",
+          "type": "string"
+        },
+        "date_modified": {
+          "description": "The date on which the dataset was updated (YYYY-MM-DD)",
+          "type": "string"
+        },
+        "program_page_url": {
+          "$ref": "#/definitions/Homepage"
+        },
+        "federated_date_modified": {
+          "description": "The date on which the federated data partner's dataset was modified (YYYY-MM-DD)",
+          "type": "string"
+        },
+        "data_series_name": {
+          "$ref": "#/definitions/SeriesTitle"
+        },
+        "data_series_issue_identification": {
+          "$ref": "#/definitions/SeriesIssueID"
+        },
+        "digital_object_identifier": {
+          "description": "The Digital Object Identifier assigned to the dataset. For more information visit: http://cisti-icist.nrc-cnrc.gc.ca/eng/services/cisti/datacite-canada/index.html",
+          "type": "string"
+        },
+        "reference_system_information": {
+          "type": "string"
+        },
+        "distributor": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/Status"
+        },
+        "association_type": {
+          "type": "string"
+        },
+        "aggregate_identifier": {
+          "type": "string"
+        },
+        "spatial_representation_type": {
+          "type": "string"
+        },
+        "jurisdiction": {
+          "$ref": "#/definitions/Jurisdiction"
+        },
+        "license_id": {
+          "description": "The licence applied to the dataset",
+          "type": "string"
+        },
+        "restrictions": {
+          "$ref": "#/definitions/AccessRestrictions"
+        },
+        "imso_approval": {
+          "$ref": "#/definitions/Approval"
+        },
+        "ready_to_publish": {
+          "$ref": "#/definitions/ReadytoPublish"
+        },
+        "portal_release_date": {
+          "description": "The date the dataset may be published on the Portal (YYYY-MM-DD)",
+          "type": "string"
+        },
+        "presentation_form": {
+          "$ref": "#/definitions/PresentationForm"
+        }
+      }
+    },
+    "Resource": {
+      "title": "Resource",
+      "type": "object",
+      "properties": {
+        "unique_identifier": {
+          "description": "A unique phrase or string which identifies the resource.",
+          "type": "string"
+        },
+        "name_translated": {
+          "$ref": "#/definitions/Title"
+        },
+        "related_relationship": {
+          "$ref": "#/definitions/RelationshipType"
+        },
+        "related_type": {
+          "$ref": "#/definitions/RelatedRecordType"
+        },
+        "date_published": {
+          "description": "Date of formal issuance (e.g., publication) of the resource.",
+          "type": "string"
+        },
+        "resource_type": {
+          "$ref": "#/definitions/ResourceType"
+        },
+        "size": {
+          "description": "The [estimated] size of a distribution in bytes.",
+          "type": "string"
+        },
+        "character_set": {
+          "$ref": "#/definitions/CharacterSet"
+        },
+        "format": {
+          "$ref": "#/definitions/Format"
+        },
+        "language": {
+          "description": "The language of the resource. You may select or deselect multiple languages (Ctrl+Click).",
+          "type": "string"
+        },
+        "url": {
+          "description": "The location for online access to the distribution of the resource, if the file resides elsewhere.",
+          "type": "string"
+        },
+        "data_quality": {
+          "type": "string"
+        }
+      }
+    },
+    "Title": {
+      "title": "Title",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "RelationshipType": {
+      "title": "RelationshipType",
+      "description": "The Related Record’s relationship with the dataset",
+      "example": "continues",
+      "type": "string",
+      "enum": [
+        "continues",
+        "continued_by",
+        "continues_in_part",
+        "continued_in_part_by",
+        "supersedes",
+        "superseded_by",
+        "formed_by_the_union_of",
+        "superseded_in_part_by",
+        "absorbed",
+        "absorbed_by",
+        "absorbed_in_part",
+        "absorbed_in_part_by",
+        "separated_from",
+        "split_into",
+        "merged_into",
+        "changed_back_to"
+      ]
+    },
+    "RelatedRecordType": {
+      "title": "RelatedRecordType",
+      "description": "The portal or page to which the Related Record belongs",
+      "example": "dataset",
+      "type": "string",
+      "enum": [
+        "dataset",
+        "info",
+        "application",
+        "other"
+      ]
+    },
+    "ResourceType": {
+      "title": "ResourceType",
+      "description": "The nature or genre of the content of the resource",
+      "example": "abstract",
+      "type": "string",
+      "enum": [
+        "abstract",
+        "agreement",
+        "contractual_material",
+        "intergovernmental_agreement",
+        "lease",
+        "memorandum_of_understanding",
+        "nondisclosure_agreement",
+        "servicelevel_agreement",
+        "affidavit",
+        "application",
+        "api",
+        "architectural_or_technical_design",
+        "article",
+        "assessment",
+        "audit",
+        "environmental_assessment",
+        "examination",
+        "gap_assessment",
+        "lessons_learned",
+        "performance_indicator",
+        "risk_assessment",
+        "biography",
+        "briefing_material",
+        "backgrounder",
+        "business_case",
+        "claim",
+        "comments",
+        "conference_proceedings",
+        "consultation",
+        "contact_information",
+        "correspondence",
+        "ministerial_correspondence",
+        "memorandum",
+        "dataset",
+        "delegation_of_authority",
+        "educational_material",
+        "employment_opportunity",
+        "event",
+        "fact_sheet",
+        "financial_material",
+        "budget",
+        "funding_proposal",
+        "invoice",
+        "financial_statement",
+        "form",
+        "framework",
+        "geospatial_material",
+        "guide",
+        "best_practices",
+        "intellectual_property_statement",
+        "legal_complaint",
+        "legal_opinion",
+        "legislation_and_regulations",
+        "licenses_and_permits",
+        "literary_material",
+        "statement",
+        "media_release",
+        "meeting_material",
+        "agenda",
+        "minutes",
+        "memorandum_to_cabinet",
+        "multimedia_resource",
+        "notice",
+        "organizational_description",
+        "plan",
+        "business_plan",
+        "strategic_plan",
+        "policy",
+        "white_paper",
+        "presentation",
+        "procedure",
+        "profile",
+        "project_material",
+        "project_charter",
+        "project_plan",
+        "project_proposal",
+        "promotional_material",
+        "publication",
+        "faq",
+        "record_of_decision",
+        "report",
+        "annual_report",
+        "interim_report",
+        "research_proposal",
+        "resource_list",
+        "routing_slip",
+        "blog_entry",
+        "sound_recording",
+        "specification",
+        "statistics",
+        "still_image",
+        "submission",
+        "survey",
+        "terminology",
+        "terms_of_reference",
+        "tool",
+        "training_material",
+        "transcript",
+        "website",
+        "web_service",
+        "workflow"
+      ]
+    },
+    "CharacterSet": {
+      "title": "CharacterSet",
+      "description": "This is the character set of the resource",
+      "example": "UTF-8",
+      "type": "string",
+      "enum": [
+        "UTF-8",
+        "US-ASCII",
+        "ISO-10646-UCS-2",
+        "ISO-10646-UCS-4",
+        "UTF-7",
+        "UTF-16",
+        "ISO-8859-1",
+        "ISO-8859-2",
+        "ISO-8859-3",
+        "ISO-8859-4",
+        "ISO-8859-5",
+        "ISO-8859-6",
+        "ISO-8859-7",
+        "ISO-8859-8",
+        "ISO-8859-9",
+        "ISO-8859-10",
+        "TIS-620",
+        "ISO-8859-13",
+        "ISO-8859-14",
+        "ISO-8859-15",
+        "ISO-8859-16",
+        "JIS_Encoding",
+        "Shift_JIS",
+        "EUC-JP",
+        "EUC-KR",
+        "Big5",
+        "GB2312",
+        "EBCDIC-US"
+      ]
+    },
+    "Format": {
+      "title": "Format",
+      "description": "The file format, physical medium, or dimensions of the resource.",
+      "example": "AAC",
+      "type": "string",
+      "enum": [
+        "AAC",
+        "AIFF",
+        "ASCII Grid",
+        "APK",
+        "AVI",
+        "BAG",
+        "BMP",
+        "BWF",
+        "CCT",
+        "CDED ASCII",
+        "CDF",
+        "CDR",
+        "COD",
+        "CSV",
+        "DBD",
+        "DBF",
+        "DICOM",
+        "DNG",
+        "DOC",
+        "DOCX",
+        "DXF",
+        "E00",
+        "ECW",
+        "EDI",
+        "EMF",
+        "EPUB3",
+        "EPUB2",
+        "EPS",
+        "ESRI REST",
+        "EXE",
+        "FGDB/GDB",
+        "FITS",
+        "Flat raster binary",
+        "GDB",
+        "GeoPDF",
+        "GeoRSS",
+        "GeoTIF",
+        "GEOJSON",
+        "GPKG",
+        "GIF",
+        "GML",
+        "GRD",
+        "GRIB1",
+        "GRIB2",
+        "HDF",
+        "HTML",
+        "IATI",
+        "IPA",
+        "JAR",
+        "JFIF",
+        "JP2",
+        "JPG",
+        "JSON",
+        "JSONLD",
+        "JSONL",
+        "KML",
+        "KMZ",
+        "LAS",
+        "LYR",
+        "TAB",
+        "MFX",
+        "MOV",
+        "MPEG",
+        "MPEG-1",
+        "MP3",
+        "MXD",
+        "NetCDF",
+        "ODP",
+        "ODS",
+        "ODT",
+        "PDF",
+        "PDF/A-1",
+        "PDF/A-2",
+        "PDF/UA",
+        "PNG",
+        "PPT",
+        "PPTX",
+        "RDF",
+        "TTL",
+        "NT",
+        "RDFa",
+        "RSS",
+        "RTF",
+        "SAR",
+        "SAS",
+        "SAV",
+        "SEGY",
+        "SHP",
+        "SQL",
+        "SQLITE3",
+        "SQLITE",
+        "SVG",
+        "TIFF",
+        "TRIG",
+        "TRIX",
+        "TFW",
+        "TXT",
+        "VPF",
+        "WAV",
+        "WCS",
+        "WFS",
+        "WMS",
+        "WMTS",
+        "WMV",
+        "WPS",
+        "XML",
+        "XLS",
+        "XLSM",
+        "XLSX",
+        "ZIP",
+        "other"
+      ]
+    },
+    "CollectionType": {
+      "title": "CollectionType",
+      "description": "The collection (domain specific) to which the metadata record belongs, Example: Non-Spatial",
+      "example": "consultations",
+      "type": "string",
+      "enum": [
+        "consultations",
+        "primary",
+        "code",
+        "api",
+        "app",
+        "geogratis",
+        "fgp",
+        "publication",
+        "transition",
+        "transition_deputy",
+        "parliament_report",
+        "question_period",
+        "parliament_committee",
+        "parliament_committee_deputy",
+        "aia",
+        "federated"
+      ]
+    },
+    "Metadatacontact": {
+      "title": "Metadatacontact",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "Publisher-OrganizationNameatPublication": {
+      "title": "Publisher-OrganizationNameatPublication",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "Publisher-OrganizationSectionName": {
+      "title": "Publisher-OrganizationSectionName",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "PositionName": {
+      "title": "PositionName",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "Contributor": {
+      "title": "Contributor",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "Description": {
+      "title": "Description",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "MaintenanceandUpdateFrequency": {
+      "title": "MaintenanceandUpdateFrequency",
+      "description": "The frequency with which changes and additions are made to the initial dataset",
+      "example": "as_needed",
+      "type": "string",
+      "enum": [
+        "as_needed",
+        "continual",
+        "P1D",
+        "P0.33W",
+        "P0.5W",
+        "P1W",
+        "P2W",
+        "P0.5M",
+        "P1M",
+        "P2M",
+        "P3M",
+        "P4M",
+        "P6M",
+        "P1Y",
+        "P2Y",
+        "P3Y",
+        "P4Y",
+        "irregular",
+        "not_planned",
+        "unknown"
+      ]
+    },
+    "Homepage": {
+      "title": "Homepage",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "SeriesTitle": {
+      "title": "SeriesTitle",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "SeriesIssueID": {
+      "title": "SeriesIssueID",
+      "type": "object",
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "fr": {
+          "type": "string"
+        }
+      }
+    },
+    "Status": {
+      "title": "Status",
+      "example": "completed",
+      "type": "string",
+      "enum": [
+        "completed",
+        "historical_archive",
+        "obsolete",
+        "ongoing",
+        "planned",
+        "required",
+        "under_development",
+        "proposed"
+      ]
+    },
+    "Jurisdiction": {
+      "title": "Jurisdiction",
+      "description": "The extent or range of judicial, law enforcement or other authority. Example: Level of government that contributed the dataset.",
+      "example": "federal",
+      "type": "string",
+      "enum": [
+        "federal",
+        "provincial",
+        "municipal",
+        "user"
+      ]
+    },
+    "AccessRestrictions": {
+      "title": "AccessRestrictions",
+      "description": "The access restrictions of the dataset",
+      "example": "unrestricted",
+      "type": "string",
+      "enum": [
+        "unrestricted"
+      ]
+    },
+    "Approval": {
+      "title": "Approval",
+      "example": "false",
+      "type": "string",
+      "enum": [
+        "false",
+        "true"
+      ]
+    },
+    "ReadytoPublish": {
+      "title": "ReadytoPublish",
+      "description": "Selecting ‘Yes’ will set this dataset as ready to publish on the Open Government Portal. Selecting ‘No’ will save it as a ‘draft’. If the dataset is already published on the portal, selecting 'No' will unpublish it.",
+      "example": "false",
+      "type": "string",
+      "enum": [
+        "false",
+        "true"
+      ]
+    },
+    "PresentationForm": {
+      "title": "PresentationForm",
+      "description": "The form in which the resource is available",
+      "example": "document_digital",
+      "type": "string",
+      "enum": [
+        "document_digital",
+        "document_hardcopy",
+        "image_digital",
+        "image_hardcopy",
+        "map_digital",
+        "map_hardcopy",
+        "model_digital",
+        "model_hardcopy",
+        "profile_digital",
+        "profile_hardcopy",
+        "table_digital",
+        "table_hardcopy",
+        "video_digital",
+        "video_hardcopy",
+        "audio_digital",
+        "audio_hardcopy",
+        "multimedia_digital",
+        "multimedia_hardcopy",
+        "diagram_digital",
+        "diagram_hardcopy"
+      ]
+    },
+    "records_format": {
+      "title": "records_format",
+      "example": "objects",
+      "type": "string",
+      "enum": [
+        "objects",
+        "lists",
+        "csv",
+        "tsv"
+      ]
+    },
+    "ActionDatastoreSearchRequest": {
+      "title": "ActionDatastoreSearchRequest",
+      "type": "object",
+      "properties": {
+        "resource_id": {
+          "description": "id or alias of the resource to be searched against",
+          "type": "string",
+          "format": "uuid"
+        },
+        "filters": {
+          "description": "matching conditions to select, `application/json` POST requests only",
+          "type": "object"
+        },
+        "q": {},
+        "distinct": {
+          "description": "return only distinct rows",
+          "type": "boolean"
+        },
+        "plain": {
+          "description": "treat as plain text query",
+          "type": "boolean"
+        },
+        "language": {
+          "description": "language of the full text query",
+          "type": "string"
+        },
+        "limit": {
+          "description": "maximum number of rows to return",
+          "type": "integer",
+          "format": "int32"
+        },
+        "offset": {
+          "description": "offset this number of rows",
+          "type": "integer",
+          "format": "int32"
+        },
+        "fields": {},
+        "sort": {
+          "description": "comma-separated string of column names with sort order",
+          "example": "reporting_period desc, line_number",
+          "type": "string"
+        },
+        "include_total": {
+          "description": "calculate and return the total number of matching rows, set to false for improved performance",
+          "type": "boolean"
+        },
+        "records_format": {
+          "$ref": "#/definitions/RecordsFormat1"
+        }
+      }
+    },
+    "RecordsFormat1": {
+      "title": "RecordsFormat1",
+      "description": "the format for the records return value, set to `csv` or `tsv` for improved performance",
+      "example": "objects",
+      "type": "string",
+      "enum": [
+        "objects",
+        "lists",
+        "csv",
+        "tsv"
+      ]
+    },
+    "type": {
+      "title": "type",
+      "example": "dataset",
+      "type": "string",
+      "enum": [
+        "dataset",
+        "info"
+      ]
+    },
+    "ActionPackageDeleteRequest": {
+      "title": "ActionPackageDeleteRequest",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The id of the dataset",
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "ActionResourceDeleteRequest": {
+      "title": "ActionResourceDeleteRequest",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The id of the resource",
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    }
+  },
+  "security": [
+    {},
+    {
+      "internal_api_key": []
+    }
+  ]
+ 
+}

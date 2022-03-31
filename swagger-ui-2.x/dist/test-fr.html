@@ -27,27 +27,30 @@
 
 		<link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
 		<link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
-		<link href='swagger-ui-2.x/dist/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
-		<link href='swagger-ui-2.x/dist/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
-		<link href='swagger-ui-2.x/dist/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-		<link href='swagger-ui-2.x/dist/css/reset.css' media='print' rel='stylesheet' type='text/css'/>
-		<link href='swagger-ui-2.x/dist/css/print.css' media='print' rel='stylesheet' type='text/css'/>
+		<link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
+		<link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+		<link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+		<link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+		<link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>
 	  
-		<script src='swagger-ui-2.x/dist/lib/object-assign-pollyfill.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/jquery.slideto.min.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/jquery.wiggle.min.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/handlebars-4.0.5.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/lodash.min.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/backbone-min.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/swagger-ui.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/jsoneditor.min.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/marked.js' type='text/javascript'></script>
-		<script src='swagger-ui-2.x/dist/lib/swagger-oauth.js' type='text/javascript'></script>
+		<script src='lib/object-assign-pollyfill.js' type='text/javascript'></script>
+		<script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+		<script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+		<script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+		<script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+		<script src='lib/handlebars-4.0.5.js' type='text/javascript'></script>
+		<script src='lib/lodash.min.js' type='text/javascript'></script>
+		<script src='lib/backbone-min.js' type='text/javascript'></script>
+		<script src='swagger-ui.js' type='text/javascript'></script>
+		<script src='lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
+		<script src='lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
+		<script src='lib/jsoneditor.min.js' type='text/javascript'></script>
+		<script src='lib/marked.js' type='text/javascript'></script>
+		<script src='lib/swagger-oauth.js' type='text/javascript'></script>
 
+		
+		<script src='lang/translator.js' type='text/javascript'></script>
+	    <script src='lang/fr.js' type='text/javascript'></script>
 
 		<link rel="stylesheet" type="text/css" href="/css/openapi.css">
 		<noscript>
@@ -76,19 +79,20 @@
 			defTop.outerHTML = wet.builder.top({
 				"cdnEnv": "esdcprod",
 				"lngLinks": [{
-					"lang": "fr",
-					"href": "index-fr.html",
-					"text": "Français"
+					"lang": "en",
+					"href": "test-en.html",
+					"text": "Enlish"
 				}]
 			});
 		</script>
 		<main property="mainContentOfPage" typeof="WebPageElement" class="container">
 
-		
+			
+			
 				  <div class="swagger-section">
 			   <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
 			   <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-		   </div>
+		   
 		   
 <div class='apidocs-param-tips apidocs-signin-message' style='display:none;'>
     <p data-sw-translate>Sign in to your account for quick access to useful values.</p>
@@ -101,7 +105,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "/openapi-en-Swagger20-no-action.json";
+        url = "/openapi-fr-Swagger20-no-action.json";
       }
 
       hljs.configure({
@@ -131,8 +135,6 @@
           if(window.SwaggerTranslator) {
             window.SwaggerTranslator.translate();
           }
-
-		  $('h4[style*="color: #999"]').attr('style','color: #6E6E6E');
         },
         onFailure: function(data) {
           log("Unable to Load SwaggerUI");
@@ -154,7 +156,6 @@
   });
   </script>
   
-
 			<!--<div id="swagger-ui"></div>  Div to hold the UI component
         <script>
             window.onload = function () {
@@ -184,13 +185,13 @@
 		<script>
 			var defFooter = document.getElementById("def-footer");
 			defFooter.outerHTML = wet.builder.footer({
-				"cdnEnv": "tbsprod"
+				"cdnEnv": "esdcprod"
 			});
 		</script>
 		<!-- Write closure template -->
 		<script>
 			document.write(wet.builder.refFooter({
-				"cdnEnv": "tbsprod"
+				"cdnEnv": "esdcprod"
 			}));
 		</script>
 	</body>

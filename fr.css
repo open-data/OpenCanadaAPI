@@ -7,15 +7,6 @@
     content: "Mandat";
 }
 
-/*Open Government License - Canada link */
-.swagger-ui .info__license a {
-    visibility: hidden;
-}
-.swagger-ui .info__license a::before {
-    visibility: visible;
-    content: "Licence du gouvernement ouvert - Canada";
-}
-
 /*Authorize button*/
 .swagger-ui .scheme-container .btn.authorize.unlocked span {
     visibility: hidden;
